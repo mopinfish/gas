@@ -5,15 +5,15 @@ const FeedlyHelper: any = {
   streadMessageBody(items: any[]): string {
     let body: string = '';
     // シャッフルする
-		const randomizedItems: any[] = ArrayUtil.shuffle(items);
+    const randomizedItems: any[] = ArrayUtil.shuffle(items);
 
     body += '[info]';
     // 10件分取得する
     [...Array(10)].map((_, i) => {
       const item = items[i]
-          , title = item['title']
-          , url = item['alternate'][0]['href']
-          ;
+        , title = item['title']
+        , url = item['alternate'][0]['href']
+      ;
       body += `${title}｜${url}\n\n`;
     });
     body += '[/info]';
