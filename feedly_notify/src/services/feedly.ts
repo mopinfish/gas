@@ -4,7 +4,7 @@
 const FeedlyService = {
 
   PROFILE_URL: 'https://cloud.feedly.com/v3/profile',
-  STREAM_URL: `https://cloud.feedly.com/v3/streams/contents?streamId=user/${PropertiesService.getScriptProperties().getProperty('FEEDLY_USER_ID')}/tag/Read%20For%20Lator&count=90`,
+  STREAM_URL: `https://cloud.feedly.com/v3/streams/contents?streamId=user/${PropertiesService.getScriptProperties().getProperty('FEEDLY_USER_ID')}/tag/Read%20For%20Lator&count=300`,
 
   /**
    * Get auth string.
