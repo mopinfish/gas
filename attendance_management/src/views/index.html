@@ -9,12 +9,41 @@
   <body>
     <div id="app">
       {{ message }}
+      <input id="addDay" type="date" class="input" v-model:value="today">
       <select v-model="selected" value="" id="client01">
-        <option v-for="client in clients">{{ client }}</option>
+        クライアント：<option v-for="client in clients">{{ client }}</option>
       </select>
       <select v-model="selected02" id="project01">
         プロジェクト：<option v-for="project in projects">{{ project }}</option>
       </select>
+      <select id="time01" v-model="time01">
+        <option v-for="item in timeArray">{{item}}</option>
+      </select>
+     <button @click="onFinish()">登録</button>
+
+     <table>
+       <thead>
+         <tr>
+           <th>Day</th>
+           <th>Cliant</th>
+           <th>Project</th>
+           <th>hour</th>
+           <th>Delete</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr
+           is="myjob-item"
+           v-for="(rows, index) in showTableArray"
+           v-bind:day="rows[2]"
+           v-bind:client="rows[3]"
+           v-bind:project="rows[4]"
+           v-bind:time="rows[5]"
+           v-on:remove="showTableArray.splice(index, 1);"
+        ></tr>
+       </tbody>
+     </table>
+     <button @click="addMyAllWork()">これで全て登録</button>
     </div>
     <?!= include('src/views/js'); ?>
   </body>

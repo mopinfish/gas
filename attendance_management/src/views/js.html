@@ -1,5 +1,17 @@
 <script>
-console.log('first');
+//コンポーネントを用意
+Vue.component('myjob-item', {
+  template: '\
+    <tr>\
+      <td>{{ day }}</td>\
+      <td>{{ client }}</td>\
+      <td>{{ project }}</td>\
+      <td>{{ time }}</td>\
+      <td><button v-on:click="$emit(\'remove\')">Remove</button></td>\
+    </tr>\
+  ',
+  props: ['day','client','project', 'time']
+});
 
 const vm = new Vue({
   el: '#app',
@@ -8,7 +20,37 @@ const vm = new Vue({
     clients: [],
     projects: [],
     selected: '',
-    selected02: ''
+    selected02: '',
+    currentUserEmail:'',
+    today:'',
+    showTableArray:[],
+    time01:'',
+    timeArray:[
+      '00:10',
+      '00:20',
+      '00:30',
+      '00:40',
+      '00:50',
+      '01:00',
+      '01:30',
+      '02:00',
+      '02:30',
+      '03:00',
+      '03:30',
+      '04:00',
+      '04:30',
+      '05:00',
+      '05:30',
+      '06:00',
+      '06:30',
+      '07:00',
+      '07:30',
+      '08:00',
+      '08:30',
+      '09:00',
+      '09:30',
+      '10:00'
+    ]
   },
   watch: {
     selected: function(now) {
@@ -30,6 +72,38 @@ const vm = new Vue({
     getProjectList: function(projects) {
       this.projects = projects;
     },
+    // フォームの内容を配列に入れて更にDataの配列へpush
+    onFinish:function(){
+      this.finishDetailDataArray = [];
+      var _client01 = document.getElementById('client01').value;
+      var _project01 = document.getElementById('project01').value;
+      var _time01 = document.getElementById('time01').value;
+      var _setDay = document.getElementById('addDay').value;
+console.log(_setDay);
+
+      var _thisArray = [];
+      _thisArray.push(this.currentUserEmail);
+      _thisArray.push(_setDay);
+      _thisArray.push(_client01);
+      _thisArray.push(_project01);
+      _thisArray.push(_time01);
+      this.showTableArray.push(_thisArray);
+    },
+    // 配列のデータをスプレッドシートに入れる
+    addMyAllWork:function(){
+      google.script.run
+        .withSuccessHandler(function(arg){
+          alert("データの登録に成功しました。");
+        })
+      .withFailureHandler(function(arg){
+        console.log(arg)
+          alert("データの登録に失敗しました。");
+      }).addMasterSheetData(this.showTableArray);
+    },
+    //カレントユーザーのメールアドレス
+    initUserData: function(userData){
+      this.currentUserEmail = userData;
+    }
   },
   created: function () {
     google.script.run
@@ -38,6 +112,18 @@ const vm = new Vue({
         console.log(arg);
         alert("データの取得に失敗しました。");
       }).getClients();
+
+    // 日付のフィールドに当日の日付を入れる
+    var today = new Date();
+    this.today = today.getFullYear() + "-" + ('0'+(today.getMonth() + 1)).slice(-2) + "-"+ ('0'+today.getDate()).slice(-2);
+
+    // カレントユーザーのemailを取得するGAS関数を発火させる。成功すればinitUserData関数
+    google.script.run
+      .withSuccessHandler(this.initUserData)
+      .withFailureHandler(function(arg){
+        alert("データの取得に失敗しました。");
+      }).GetUserEmail();
+
   }
 });
 

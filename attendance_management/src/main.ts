@@ -45,3 +45,34 @@ function findProjectList(client){
 
   return res;
 }
+
+
+// データをスプレッドシートに挿入
+function addMasterSheetData(addUserMasterData){
+  const properties = PropertiesService.getScriptProperties()
+      , spreadSheetID = properties.getProperty('SHEET_ID')
+      , sheetName = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyyMM')
+      , values = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getRange('A:A').getValues() //受け取ったシートのデータを二次元配列に取得
+      ;
+  //シートの最終行を取得
+  for1:
+  for (var i = values.length - 1; i >= 0; i--) {
+    for(var j = 0; j < values[i].length; j++){
+      if(values[i][j] != ""){
+        break for1;
+      }
+    }
+  }
+  //何行分、何列分のデータかを取得して.getRangeの引数を埋めてsetValueで値をスプレッドシートに挿入
+  var array_rows = addUserMasterData.length;
+  var array_col = addUserMasterData[0].length;
+  var last_row = i +1;
+  SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getRange(last_row+1, 1, array_rows, array_col).setValues(addUserMasterData);
+
+}
+
+// カレントユーザーのメールアドレスを返す（googleログインしている前提）
+function GetUserEmail() {
+  var objUser = Session.getActiveUser();
+  return objUser.getEmail();
+}
