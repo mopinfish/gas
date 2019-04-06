@@ -3,7 +3,7 @@
  * @return {Object} HtmlService Object
  */
 function doGet() {
-  var template = 'index';
+  var template = 'src/views/index';
   return HtmlService.createTemplateFromFile(template).evaluate();
 }
 
@@ -12,12 +12,12 @@ function include(filename) {
 }
 
 // クライアント一覧を取得
-function getSheetDataCliant() {
+function getClients() {
   const properties = PropertiesService.getScriptProperties()
+      , spreadSheetID = properties.getProperty('SHEET_ID')
+      , sheetName = "master"
+      , res = Array.prototype.concat.apply([], SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getDataRange().getValues())
       ;
-  var spreadSheetID = properties.getProperty('SHEET_ID');
-  var sheetName = "master";
-  var res = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getDataRange().getValues();
-  res = Array.prototype.concat.apply([], res);
+
   return res;
 }

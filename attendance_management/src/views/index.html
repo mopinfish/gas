@@ -3,17 +3,16 @@
   <head>
     <base target="_top">
     <script src="https://unpkg.com/vue"></script>
-    <?!= include('css'); ?>
+    <?!= include('src/views/css'); ?>
   </head>
   <body>
-    hello hello gas world
     <div id="app">
       {{ message }}
       <select value="" id="client01">
-        <option v-for="row in clients">{{ row }}</option>
+        <option v-for="client in clients">{{ client }}</option>
       </select>
     </div>
-    <?!= include('js'); ?>
+    <?!= include('src/views/js'); ?>
   </body>
 </html>
 

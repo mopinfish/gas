@@ -1,27 +1,27 @@
 <script>
-console.log('hogehogehogehoge');
-var vm = new Vue({
+console.log('first');
+
+const vm = new Vue({
   el: '#app',
   data: {
-    message: 'Welcome Vue!',
+    message: '工数管理システム',
     clients: []
   },
   methods: {
     // 最初のスプレッドシートのデータインポート
-    initData: function (clients) {
+    initialize: function (clients) {
       this.clients = clients;
-      console.log(this.clients);
     }
   },
   created: function () {
-    console.log('hgoe');
     google.script.run
-      .withSuccessHandler(this.initData)
-      .withFailureHandler(function(arg) {
+      .withSuccessHandler(this.initialize)
+      .withFailureHandler((arg) => {
         console.log(arg);
         alert("データの取得に失敗しました。");
-      }).getSheetDataCliant();
+      }).getClients();
   }
 });
-console.log('mogemogemgoe');
+
+console.log('last');
 </script>
