@@ -29,18 +29,19 @@ function findProjectList(client){
       , sheetName = "projects_master"
       ;
 
-  var dat = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getDataRange().getValues(); // 受け取ったシートのデータを二次元配列に取得
+  var data = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getDataRange().getValues(); // 受け取ったシートのデータを二次元配列に取得
   // 引数のクライアント名がある行を取得
-  for(var i = 0;i < dat.length; i++) {
-    if(dat[i][0] === client){
-      var clientRow = i+1;
+  for(var i = 0; i < data.length; i++) {
+    if(data[i][0] === client){
+      var clientRow = i + 1;
     }
   }
+
   //getRangeで引数がある行の2列目から10列目まで取得
-  var res = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getRange(clientRow, 2, 1, 10).getValues();
   //２次元配列にする
-  res = Array.prototype.concat.apply([], res);
-  //空白の配列を除去
-  res = res.filter(function(e){return e !== "";});
+  const res = Array.prototype.concat.apply([], SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName).getRange(clientRow, 2, 1, 10).getValues())
+              // 空白の配列を除去
+              .filter(function(e){return e !== "";});
+
   return res;
 }
