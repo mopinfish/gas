@@ -1,3 +1,27 @@
 <script>
 console.log('hogehogehogehoge');
+var vm = new Vue({
+  el: '#app',
+  data: {
+    message: 'Welcome Vue!',
+    clients: []
+  },
+  methods: {
+    // 最初のスプレッドシートのデータインポート
+    initData: function (clients) {
+      this.clients = clients;
+      console.log(this.clients);
+    }
+  },
+  created: function () {
+    console.log('hgoe');
+    google.script.run
+      .withSuccessHandler(this.initData)
+      .withFailureHandler(function(arg) {
+        console.log(arg);
+        alert("データの取得に失敗しました。");
+      }).getSheetDataCliant();
+  }
+});
+console.log('mogemogemgoe');
 </script>
