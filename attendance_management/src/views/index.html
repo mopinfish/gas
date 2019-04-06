@@ -3,13 +3,17 @@
   <head>
     <base target="_top">
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/hyperapp"></script>
     <?!= include('src/views/css'); ?>
   </head>
   <body>
     <div id="app">
       {{ message }}
-      <select value="" id="client01">
+      <select v-model="selected" value="" id="client01">
         <option v-for="client in clients">{{ client }}</option>
+      </select>
+      <select v-model="selected02" id="project01">
+        プロジェクト：<option v-for="project in projects">{{ project }}</option>
       </select>
     </div>
     <?!= include('src/views/js'); ?>

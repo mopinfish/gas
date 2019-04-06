@@ -5,13 +5,31 @@ const vm = new Vue({
   el: '#app',
   data: {
     message: '工数管理システム',
-    clients: []
+    clients: [],
+    projects: [],
+    selected: '',
+    selected02: ''
+  },
+  watch: {
+    selected: function(now) {
+      // 選ばれたクライアントに紐づいたプロジェクトリストを取得するGAS関数を発火させる。
+      // 成功すればgetProjectList関数
+      google.script.run
+        .withSuccessHandler(this.getProjectList)
+        .withFailureHandler((arg) => {
+          alert("データの取得に失敗しました。");
+        }).findProjectList(now);
+    }
   },
   methods: {
     // 最初のスプレッドシートのデータインポート
     initialize: function (clients) {
       this.clients = clients;
-    }
+    },
+    // プロジェクトリスト
+    getProjectList: function(projects) {
+      this.projects = projects;
+    },
   },
   created: function () {
     google.script.run
