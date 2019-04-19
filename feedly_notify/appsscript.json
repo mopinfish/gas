@@ -1,0 +1,11 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "ChatWorkClient",
+      "libraryId": "1nf253qsOnZ-RcdcFu1Y2v4pGwTuuDxN5EbuvKEZprBWg764tjwA5fLav",
+      "version": "18"
+    }]
+  },
+  "exceptionLogging": "STACKDRIVER"
+}
